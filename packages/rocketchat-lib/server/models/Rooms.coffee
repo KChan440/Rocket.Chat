@@ -5,6 +5,7 @@ RocketChat.models.Rooms = new class extends RocketChat.models._Base
 		@tryEnsureIndex { 'name': 1 }, { unique: 1, sparse: 1 }
 		@tryEnsureIndex { 'default': 1 }
 		@tryEnsureIndex { 'usernames': 1 }
+		@tryEnsureIndex { 'categories' : 1}
 		@tryEnsureIndex { 't': 1 }
 		@tryEnsureIndex { 'u._id': 1 }
 
@@ -413,11 +414,12 @@ RocketChat.models.Rooms = new class extends RocketChat.models._Base
 		return @update { _id: _id }, update
 
 	# INSERT
-	createWithTypeNameUserAndUsernames: (type, name, user, usernames, extraData) ->
+	createWithTypeNameUserAndUsernames: (type, name, user, categories, usernames, extraData) ->
 		room =
 			name: name
 			t: type
 			usernames: usernames
+			categories: categories
 			msgs: 0
 			u:
 				_id: user._id

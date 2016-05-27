@@ -1,5 +1,5 @@
 Meteor.methods
-	createChannel: (name, members) ->
+	createChannel: (name, members, categories) ->
 		if not Meteor.userId()
 			throw new Meteor.Error 'error-invalid-user', "Invalid user", { method: 'createChannel' }
 
@@ -31,6 +31,7 @@ Meteor.methods
 		RocketChat.callbacks.run 'beforeCreateChannel', user,
 			t: 'c'
 			name: name
+			categories: categories
 			ts: now
 			usernames: members
 			u:
@@ -38,7 +39,7 @@ Meteor.methods
 				username: user.username
 
 		# create new room
-		room = RocketChat.models.Rooms.createWithTypeNameUserAndUsernames 'c', name, user, members,
+		room = RocketChat.models.Rooms.createWithTypeNameUserAndUsernames 'c', name, user, categories, members,
 			ts: now
 
 		for username in members

@@ -20,6 +20,10 @@
 					{{/each}}
 				</ul>
 			</div>
+			<div class="input-line">
+				<label for="channel-categories">{{_ "Category"}}</label>
+				<input type="text" id="channel-categories" class="required" dir="auto" placeholder="{{_ 'Enter_category_here'}}">
+			</div>
 			{{#if error.fields}}
 				<div class="input-error">
 					<strong>{{_ "Oops!"}}</strong>
