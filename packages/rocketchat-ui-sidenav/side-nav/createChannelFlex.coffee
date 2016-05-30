@@ -79,14 +79,19 @@ Template.createChannelFlex.events
 
 	'keydown #channel-members': (e, instance) ->
 		if $(e.currentTarget).val() is '' and e.keyCode is 13
+			instance.$('#channel-categories').focus()
+
+	'keydown #channel-categories': (e, instance) ->
+		if e.keyCode is 13
 			instance.$('.save-channel').click()
 
 	'click .save-channel': (e, instance) ->
 		err = SideNav.validate()
 		name = instance.find('#channel-name').value.toLowerCase().trim()
+		categories = instance.find('#channel-categories').value.toLowerCase().trim()
 		instance.roomName.set name
 		if not err
-			Meteor.call 'createChannel', name, instance.selectedUsers.get(), (err, result) ->
+			Meteor.call 'createChannel', name, instance.selectedUsers.get(), categories, (err, result) ->
 				if err
 					console.log err
 					if err.error is 'error-invalid-name'
@@ -122,3 +127,4 @@ Template.createChannelFlex.onCreated ->
 		instance.selectedUsers.set([])
 		instance.find('#channel-name').value = ''
 		instance.find('#channel-members').value = ''
+		instance.find('#channel-categories').value = ''
